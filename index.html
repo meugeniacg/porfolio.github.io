@@ -1,1 +1,847 @@
 
+Maria eugenia ciantino · HTML
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>María Eugenia Ciantino — Observación aplicada a la comunicación</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --white:#FFFFFF;
+    --paper:#F6F6F4;
+    --ink:#0E0E0E;
+    --ink-soft:#4A4A47;
+    --petrol:#315C72;
+    --petrol-soft:#A9C0CB;
+    --line:#E2E1DC;
+    --max:1180px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--white);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    font-weight:400;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
+  }
+  ::selection{background:var(--petrol);color:var(--white);}
+ 
+  h1,h2,h3{
+    font-family:'Manrope',sans-serif;
+    font-weight:700;
+    letter-spacing:-0.02em;
+    line-height:1.05;
+  }
+  a{color:inherit;text-decoration:none;}
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.72rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--petrol);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:7px;height:7px;
+    background:var(--petrol);
+    border-radius:50%;
+    flex-shrink:0;
+  }
+ 
+  .wrap{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:0 32px;
+  }
+  section{position:relative;}
+ 
+  /* ---------- Annotation rail (signature element) ---------- */
+  .field{
+    display:grid;
+    grid-template-columns:64px 1fr;
+    gap:0;
+  }
+  .rail{
+    position:relative;
+    border-right:1px solid var(--line);
+  }
+  .rail-track{
+    position:sticky;
+    top:0;
+    height:100vh;
+    display:flex;
+    align-items:center;
+  }
+  .rail-line{
+    position:absolute;
+    left:31px;
+    top:0;
+    bottom:0;
+    width:1px;
+    background:var(--line);
+  }
+  .rail-dot{
+    position:absolute;
+    left:27px;
+    width:9px;height:9px;
+    border-radius:50%;
+    background:var(--petrol);
+    transition:top 0.15s ease-out;
+    box-shadow:0 0 0 4px rgba(49,92,114,0.12);
+  }
+  .field-content{min-width:0;}
+  .note{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.68rem;
+    color:var(--ink-soft);
+    line-height:1.6;
+    padding:6px 18px 6px 0;
+    opacity:0;
+    transform:translateY(6px);
+    transition:opacity 0.6s ease, transform 0.6s ease;
+    max-width:560px;
+  }
+  .note.visible{opacity:1;transform:translateY(0);}
+  .note span{color:var(--petrol);}
+  @media (max-width:880px){
+    .field{grid-template-columns:1fr;}
+    .rail{display:none;}
+  }
+ 
+  /* ---------- Nav ---------- */
+  nav{
+    position:fixed;
+    top:0;left:0;right:0;
+    z-index:100;
+    padding:22px 32px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    mix-blend-mode:difference;
+    color:#fff;
+  }
+  .nav-name{
+    font-family:'Manrope',sans-serif;
+    font-weight:700;
+    font-size:0.95rem;
+    letter-spacing:-0.01em;
+  }
+  .nav-links{display:flex;gap:28px;font-size:0.8rem;}
+  @media (max-width:700px){.nav-links{display:none;}}
+ 
+  /* ---------- Hero ---------- */
+  .hero{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:140px 32px 80px;
+    position:relative;
+  }
+  .hero-inner{max-width:var(--max);margin:0 auto;width:100%;}
+  .hero-eyebrow{margin-bottom:34px;}
+  .hero h1{
+    font-size:clamp(2.1rem, 5.4vw, 4.6rem);
+    max-width:980px;
+  }
+  .hero h1 .light{
+    font-weight:300;
+    color:var(--ink-soft);
+    display:block;
+  }
+  .hero-sub{
+    margin-top:34px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.78rem;
+    letter-spacing:0.04em;
+    color:var(--ink-soft);
+  }
+  .hero-sub span{
+    padding:7px 14px;
+    border:1px solid var(--line);
+    border-radius:999px;
+  }
+  .hero-cta{
+    margin-top:56px;
+    display:inline-flex;
+    align-items:center;
+    gap:14px;
+    font-size:0.95rem;
+    font-weight:500;
+    padding-bottom:6px;
+    border-bottom:1px solid var(--ink);
+    width:fit-content;
+    transition:gap 0.3s ease, opacity 0.3s ease;
+  }
+  .hero-cta:hover{gap:22px;opacity:0.7;}
+  .hero-cta svg{width:16px;height:16px;}
+ 
+  .hero-bg-grid{
+    position:absolute;
+    inset:0;
+    background-image:
+      linear-gradient(to right, var(--line) 1px, transparent 1px);
+    background-size:120px 100%;
+    opacity:0.5;
+    pointer-events:none;
+  }
+ 
+  .scroll-cue{
+    position:absolute;
+    bottom:40px;
+    left:32px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.68rem;
+    color:var(--ink-soft);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .scroll-cue .bar{
+    width:1px;height:34px;
+    background:var(--line);
+    position:relative;
+    overflow:hidden;
+  }
+  .scroll-cue .bar::after{
+    content:"";
+    position:absolute;
+    top:-100%;left:0;
+    width:100%;height:100%;
+    background:var(--petrol);
+    animation:scrollcue 1.8s ease-in-out infinite;
+  }
+  @keyframes scrollcue{
+    0%{top:-100%;}
+    50%{top:0%;}
+    100%{top:100%;}
+  }
+ 
+  /* ---------- Generic section spacing ---------- */
+  .section-pad{padding:140px 0;}
+  .section-pad-sm{padding:100px 0;}
+  @media (max-width:700px){
+    .section-pad{padding:90px 0;}
+    .section-pad-sm{padding:70px 0;}
+  }
+  .section-head{margin-bottom:60px;}
+  .section-head h2{font-size:clamp(1.7rem,3.4vw,2.6rem);margin-top:18px;max-width:680px;}
+ 
+  /* ---------- About ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:80px;
+    align-items:start;
+  }
+  @media (max-width:880px){.about-grid{grid-template-columns:1fr;gap:48px;}}
+  .about-text p{
+    font-size:1.08rem;
+    line-height:1.75;
+    color:var(--ink-soft);
+    margin-bottom:22px;
+    max-width:540px;
+  }
+  .about-text strong{color:var(--ink);font-weight:600;}
+ 
+  .trait-card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:36px;
+  }
+  .trait-card .quote-mark{
+    font-family:'Manrope',sans-serif;
+    font-size:2.6rem;
+    color:var(--petrol-soft);
+    line-height:1;
+    margin-bottom:10px;
+  }
+  .trait-card p{
+    font-family:'Manrope',sans-serif;
+    font-size:1.28rem;
+    font-weight:500;
+    line-height:1.5;
+    letter-spacing:-0.01em;
+  }
+  .trait-card .trait-foot{
+    margin-top:26px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.7rem;
+    color:var(--ink-soft);
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+  }
+ 
+  /* ---------- Philosophy ---------- */
+  .philosophy{
+    background:var(--ink);
+    color:var(--white);
+  }
+  .philosophy .eyebrow{color:var(--petrol-soft);}
+  .philosophy .eyebrow::before{background:var(--petrol-soft);}
+  .phil-line{
+    font-family:'Manrope',sans-serif;
+    font-size:clamp(1.5rem,4vw,3rem);
+    font-weight:600;
+    line-height:1.25;
+    letter-spacing:-0.01em;
+    max-width:920px;
+  }
+  .phil-line .dim{color:#6B6B68;}
+  .phil-grid{
+    margin-top:70px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1px;
+    background:#262624;
+    border:1px solid #262624;
+  }
+  @media (max-width:760px){.phil-grid{grid-template-columns:1fr;}}
+  .phil-cell{
+    background:var(--ink);
+    padding:30px 28px;
+  }
+  .phil-cell .num{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.7rem;
+    color:var(--petrol-soft);
+  }
+  .phil-cell h3{
+    font-size:1.1rem;
+    font-weight:600;
+    margin:14px 0 10px;
+    color:var(--white);
+  }
+  .phil-cell p{
+    font-size:0.92rem;
+    color:#A8A8A4;
+    line-height:1.6;
+  }
+ 
+  /* ---------- Services ---------- */
+  .services-list{border-top:1px solid var(--line);}
+  .service-row{
+    display:grid;
+    grid-template-columns:60px 1fr 1fr;
+    gap:24px;
+    padding:30px 0;
+    border-bottom:1px solid var(--line);
+    align-items:baseline;
+    transition:padding-left 0.35s ease, background 0.35s ease;
+  }
+  .service-row:hover{padding-left:14px;background:var(--paper);}
+  @media (max-width:760px){
+    .service-row{grid-template-columns:1fr;gap:8px;}
+  }
+  .service-row .idx{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.78rem;
+    color:var(--petrol);
+  }
+  .service-row h3{
+    font-size:1.3rem;
+    font-weight:600;
+  }
+  .service-row p{
+    color:var(--ink-soft);
+    font-size:0.95rem;
+    line-height:1.6;
+  }
+ 
+  /* ---------- Projects ---------- */
+  .project-card{
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:44px;
+    margin-bottom:24px;
+    position:relative;
+    overflow:hidden;
+    transition:border-color 0.3s ease;
+  }
+  .project-card:hover{border-color:var(--petrol);}
+  .project-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:24px;
+    flex-wrap:wrap;
+  }
+  .project-name{
+    font-family:'Manrope',sans-serif;
+    font-size:clamp(1.4rem,2.6vw,2rem);
+    font-weight:700;
+  }
+  .project-type{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.7rem;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    margin-top:8px;
+  }
+  .project-goal{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.74rem;
+    color:var(--petrol);
+    text-align:right;
+    max-width:240px;
+    line-height:1.5;
+  }
+  .project-tags{
+    margin-top:28px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .project-tags span{
+    font-size:0.78rem;
+    padding:6px 14px;
+    background:var(--paper);
+    border-radius:999px;
+    color:var(--ink-soft);
+  }
+ 
+  /* ---------- Process timeline ---------- */
+  .timeline{position:relative;}
+  .tl-row{
+    display:grid;
+    grid-template-columns:140px 1fr;
+    gap:30px;
+    padding:34px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .tl-row:first-child{border-top:1px solid var(--line);}
+  @media (max-width:700px){.tl-row{grid-template-columns:70px 1fr;}}
+  .tl-num{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.85rem;
+    color:var(--petrol);
+  }
+  .tl-label{font-family:'Manrope',sans-serif;font-weight:700;font-size:1.2rem;margin-bottom:8px;}
+  .tl-desc{color:var(--ink-soft);font-size:0.95rem;line-height:1.65;max-width:560px;}
+ 
+  /* ---------- Tools ---------- */
+  .tools-cloud{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+  }
+  .tool-chip{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.84rem;
+    padding:13px 20px;
+    border:1px solid var(--line);
+    border-radius:10px;
+    transition:transform 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+  }
+  .tool-chip:hover{
+    transform:translateY(-3px);
+    border-color:var(--petrol);
+    color:var(--petrol);
+  }
+ 
+  /* ---------- AI section ---------- */
+  .ai-section{
+    background:var(--paper);
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .ai-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:60px;
+  }
+  @media (max-width:880px){.ai-grid{grid-template-columns:1fr;gap:36px;}}
+  .ai-grid p{color:var(--ink-soft);font-size:1.02rem;line-height:1.75;max-width:520px;}
+ 
+  /* ---------- Contact ---------- */
+  .contact{
+    text-align:left;
+  }
+  .contact h2{
+    font-size:clamp(2rem,6vw,4.2rem);
+    max-width:880px;
+  }
+  .contact-links{
+    margin-top:50px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:18px;
+  }
+  .contact-links a{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.85rem;
+    padding:14px 24px;
+    border:1px solid var(--ink);
+    border-radius:999px;
+    transition:background 0.3s ease, color 0.3s ease;
+  }
+  .contact-links a.primary{background:var(--ink);color:var(--white);}
+  .contact-links a:hover{background:var(--petrol);color:var(--white);border-color:var(--petrol);}
+ 
+  .closing{
+    padding:160px 0 100px;
+    text-align:center;
+  }
+  .closing p{
+    font-family:'Manrope',sans-serif;
+    font-size:clamp(1.3rem,3.2vw,2.1rem);
+    font-weight:500;
+    line-height:1.5;
+    max-width:760px;
+    margin:0 auto;
+    color:var(--ink);
+  }
+  .closing p .accent{color:var(--petrol);}
+ 
+  footer{
+    border-top:1px solid var(--line);
+    padding:30px 0;
+    display:flex;
+    justify-content:space-between;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.7rem;
+    color:var(--ink-soft);
+  }
+  @media (max-width:600px){footer{flex-direction:column;gap:8px;}}
+ 
+  .reveal{
+    opacity:0;
+    transform:translateY(24px);
+    transition:opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+ 
+<nav>
+  <div class="nav-name">M. E. CIANTINO</div>
+  <div class="nav-links">
+    <a href="#sobre-mi">Sobre mí</a>
+    <a href="#proyectos">Proyectos</a>
+    <a href="#proceso">Proceso</a>
+    <a href="#contacto">Contacto</a>
+  </div>
+</nav>
+ 
+<div class="field">
+  <div class="rail">
+    <div class="rail-track">
+      <div class="rail-line"></div>
+      <div class="rail-dot" id="railDot"></div>
+    </div>
+  </div>
+ 
+  <div class="field-content">
+ 
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <div class="hero-bg-grid"></div>
+      <div class="hero-inner">
+        <div class="eyebrow hero-eyebrow">Maria Eugenia Ciantino — Buenos Aires, Argentina</div>
+        <h1>
+          No creo contenido para redes.
+          <span class="light">Observo personas para construir comunicación con sentido.</span>
+        </h1>
+        <div class="hero-sub">
+          <span>Community Manager</span>
+          <span>Content Strategist</span>
+          <span>Creative Designer</span>
+          <span>Social Media Specialist</span>
+          <span>AI Creative Workflow</span>
+        </div>
+        <a href="#proyectos" class="hero-cta">
+          Ver proyectos
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+      <div class="scroll-cue"><div class="bar"></div>scroll</div>
+    </section>
+ 
+    <!-- SOBRE MÍ -->
+    <section class="section-pad" id="sobre-mi">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div class="eyebrow">01 — Sobre mí</div>
+          <h2>Mi valor no está en producir más rápido. Está en mirar más profundo.</h2>
+        </div>
+        <div class="about-grid">
+          <div class="about-text reveal">
+            <p>Trabajo desarrollando estrategias de comunicación para marcas y profesionales, combinando <strong>estrategia de contenidos, branding, producción audiovisual, edición de video, Meta Ads, automatizaciones e inteligencia artificial aplicada al marketing.</strong> Actualmente curso la Diplomatura en Inteligencia Artificial de la UTN.</p>
+            <p>Soy una persona dentro del espectro autista y Altamente Sensible (PAS). Esa condición no es una nota al pie de mi perfil: es el origen de mi método. Detecto patrones, matices y comportamientos que normalmente pasan inadvertidos, y eso me permite comprender la identidad de una marca antes de empezar a comunicarla — no después.</p>
+            <p>No diseño para tendencias. Diseño para lo que una marca realmente es.</p>
+          </div>
+          <div class="trait-card reveal">
+            <div class="quote-mark">”</div>
+            <p>Mi sensibilidad no es un obstáculo para trabajar en comunicación. Es la razón por la que mi comunicación funciona.</p>
+            <div class="trait-foot">Espectro autista · Persona Altamente Sensible</div>
+          </div>
+        </div>
+      </div>
+    </section>
+ 
+    <!-- FILOSOFÍA -->
+    <section class="philosophy section-pad" id="filosofia">
+      <div class="wrap">
+        <div class="eyebrow reveal">02 — Filosofía</div>
+        <p class="phil-line reveal" style="margin-top:24px;">No sigo tendencias porque sí. <span class="dim">Analizo. Observo. Pregunto. Entiendo.</span> Recién después comunico — porque una marca tiene que <em>sentirse</em> antes de verse.</p>
+        <div class="phil-grid reveal">
+          <div class="phil-cell">
+            <div class="num">001</div>
+            <h3>Observar antes de actuar</h3>
+            <p>Ninguna estrategia empieza en Canva. Empieza mirando cómo se comporta realmente una marca, un cliente, una audiencia.</p>
+          </div>
+          <div class="phil-cell">
+            <div class="num">002</div>
+            <h3>Detalle como estrategia</h3>
+            <p>Lo que otros descartan como detalle menor, suele ser el dato que define el tono, el color o el mensaje correcto.</p>
+          </div>
+          <div class="phil-cell">
+            <div class="num">003</div>
+            <h3>Sentido por encima de volumen</h3>
+            <p>Prefiero una pieza que comunique con precisión a diez piezas que solo ocupan espacio en el feed.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+ 
+    <!-- SERVICIOS -->
+    <section class="section-pad" id="servicios">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div class="eyebrow">03 — Servicios</div>
+          <h2>Lo que hago, con precisión.</h2>
+        </div>
+        <div class="services-list reveal">
+          <div class="service-row">
+            <div class="idx">01</div>
+            <h3>Estrategia de contenidos</h3>
+            <p>Lectura de marca, definición de tono y construcción de un plan de comunicación con propósito, no solo calendario.</p>
+          </div>
+          <div class="service-row">
+            <div class="idx">02</div>
+            <h3>Branding</h3>
+            <p>Identidad visual y verbal coherente: paleta, tipografía, voz y manual de marca aplicables a cada punto de contacto.</p>
+          </div>
+          <div class="service-row">
+            <div class="idx">03</div>
+            <h3>Producción y edición audiovisual</h3>
+            <p>Reels, piezas de marca y contenido orgánico pensado para sostener identidad, no solo para sumar publicaciones.</p>
+          </div>
+          <div class="service-row">
+            <div class="idx">04</div>
+            <h3>Meta Ads</h3>
+            <p>Estrategia, segmentación y copywriting publicitario orientado a resultados reales, no solo a alcance.</p>
+          </div>
+          <div class="service-row">
+            <div class="idx">05</div>
+            <h3>IA aplicada al marketing</h3>
+            <p>Flujos de trabajo creativos potenciados por inteligencia artificial: producción a escala sin perder criterio.</p>
+          </div>
+          <div class="service-row">
+            <div class="idx">06</div>
+            <h3>Automatizaciones</h3>
+            <p>Sistemas que ordenan la operación de un negocio — desde WhatsApp Business hasta flujos de atención al cliente.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+ 
+    <!-- PROYECTOS -->
+    <section class="section-pad" id="proyectos">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div class="eyebrow">04 — Proyectos</div>
+          <h2>Marcas reales, problemas reales.</h2>
+        </div>
+ 
+        <div class="project-card reveal">
+          <div class="project-top">
+            <div>
+              <div class="project-name">Casa Enrique</div>
+              <div class="project-type">Ferretería tradicional</div>
+            </div>
+            <div class="project-goal">Objetivo: modernizar la comunicación sin perder cercanía.</div>
+          </div>
+          <div class="project-tags">
+            <span>Estrategia</span><span>Reels</span><span>Producción audiovisual</span><span>Meta Ads</span><span>Automatizaciones</span><span>Contenido orgánico</span>
+          </div>
+        </div>
+ 
+        <div class="project-card reveal">
+          <div class="project-top">
+            <div>
+              <div class="project-name">Daiana Trezza</div>
+              <div class="project-type">Abogada laboralista</div>
+            </div>
+            <div class="project-goal">Objetivo: comunicación profesional con identidad de marca propia.</div>
+          </div>
+          <div class="project-tags">
+            <span>Branding completo</span><span>Manual de marca</span><span>Instagram</span><span>WhatsApp</span><span>Embudos</span>
+          </div>
+        </div>
+ 
+        <div class="project-card reveal">
+          <div class="project-top">
+            <div>
+              <div class="project-name">KüyenTún</div>
+              <div class="project-type">Marca propia — más de 20.000 productos confeccionados</div>
+            </div>
+            <div class="project-goal">Objetivo: sostener una marca de punta a punta, con identidad consistente.</div>
+          </div>
+          <div class="project-tags">
+            <span>Branding</span><span>Fotografía</span><span>Diseño</span><span>Marketing</span><span>Atención al cliente</span><span>Ecommerce</span><span>Contenido</span><span>Publicidad</span>
+          </div>
+        </div>
+      </div>
+    </section>
+ 
+    <!-- PROCESO -->
+    <section class="section-pad" id="proceso">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div class="eyebrow">05 — Proceso creativo</div>
+          <h2>Un método, no una corazonada.</h2>
+        </div>
+        <div class="timeline reveal">
+          <div class="tl-row">
+            <div class="tl-num">01</div>
+            <div><div class="tl-label">Observar</div><div class="tl-desc">Miro antes de intervenir: cómo se mueve la marca, cómo habla su audiencia, qué patrones se repiten.</div></div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-num">02</div>
+            <div><div class="tl-label">Comprender</div><div class="tl-desc">Traduzco lo observado en una lectura clara de identidad, tono y necesidad real del negocio.</div></div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-num">03</div>
+            <div><div class="tl-label">Diseñar</div><div class="tl-desc">Construyo la estructura: paleta, tipografía, lenguaje visual y arquitectura de contenidos.</div></div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-num">04</div>
+            <div><div class="tl-label">Crear</div><div class="tl-desc">Produzco las piezas — audiovisuales, gráficas o publicitarias — con criterio editorial sostenido.</div></div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-num">05</div>
+            <div><div class="tl-label">Analizar</div><div class="tl-desc">Reviso resultados con datos concretos: qué comunicó, a quién, y con qué efecto real.</div></div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-num">06</div>
+            <div><div class="tl-label">Optimizar</div><div class="tl-desc">Ajusto el sistema completo — no solo la pieza — para que la próxima decisión parta de un lugar más certero.</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+ 
+    <!-- HERRAMIENTAS -->
+    <section class="section-pad-sm" id="herramientas">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div class="eyebrow">06 — Herramientas</div>
+          <h2>Lo que uso, todos los días.</h2>
+        </div>
+        <div class="tools-cloud reveal">
+          <div class="tool-chip">Meta Ads</div>
+          <div class="tool-chip">Canva</div>
+          <div class="tool-chip">CapCut</div>
+          <div class="tool-chip">Adobe Express</div>
+          <div class="tool-chip">ChatGPT</div>
+          <div class="tool-chip">Claude</div>
+          <div class="tool-chip">Hércules</div>
+          <div class="tool-chip">Lovable</div>
+          <div class="tool-chip">Notion</div>
+          <div class="tool-chip">Google Workspace</div>
+        </div>
+      </div>
+    </section>
+ 
+    <!-- IA APLICADA -->
+    <section class="ai-section section-pad" id="ia">
+      <div class="wrap">
+        <div class="ai-grid">
+          <div class="reveal">
+            <div class="eyebrow">07 — IA aplicada al marketing</div>
+            <h2 style="margin-top:18px;font-size:clamp(1.6rem,3vw,2.3rem);">La IA no reemplaza la observación. La escala.</h2>
+          </div>
+          <div class="reveal">
+            <p>Uso inteligencia artificial como una extensión de mi propio criterio, no como un reemplazo de él. Me permite producir contenido a escala sin perder el detalle que define a cada marca — y dedicar el tiempo humano a lo que realmente lo necesita: la estrategia, la lectura fina, la decisión final.</p>
+            <p style="margin-top:18px;">Actualmente profundizo esta práctica en la Diplomatura en Inteligencia Artificial de la UTN, integrando flujos de trabajo creativos potenciados por IA a cada proyecto que tomo.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+ 
+    <!-- CLOSING LINE -->
+    <section class="closing">
+      <div class="wrap">
+        <p class="reveal">La creatividad no aparece por inspiración. <span class="accent">Aparece cuando alguien aprende a mirar donde los demás no miran.</span></p>
+      </div>
+    </section>
+ 
+    <!-- CONTACTO -->
+    <section class="section-pad contact" id="contacto">
+      <div class="wrap">
+        <div class="eyebrow reveal">08 — Contacto</div>
+        <h2 class="reveal" style="margin-top:18px;">Hablemos de tu marca.</h2>
+        <div class="contact-links reveal">
+          <a href="mailto:hola@mariaeugeniaciantino.com" class="primary">Escribir un email</a>
+          <a href="https://wa.me/" target="_blank" rel="noopener">WhatsApp</a>
+          <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+    </section>
+ 
+    <footer>
+      <div class="wrap" style="display:flex;justify-content:space-between;width:100%;flex-wrap:wrap;gap:8px;">
+        <span>© 2026 María Eugenia Ciantino</span>
+        <span>Buenos Aires, Argentina</span>
+      </div>
+    </footer>
+ 
+  </div>
+</div>
+ 
+<script>
+  // scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  }, {threshold:0.12});
+  revealEls.forEach(el=>io.observe(el));
+ 
+  // rail dot follows scroll progress
+  const railDot = document.getElementById('railDot');
+  const fieldContent = document.querySelector('.field-content');
+  function updateRail(){
+    if(!railDot || window.innerWidth <= 880) return;
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = Math.min(Math.max(scrollTop / docHeight, 0), 1);
+    railDot.style.top = (progress * (window.innerHeight - 20)) + 'px';
+  }
+  window.addEventListener('scroll', updateRail, {passive:true});
+  window.addEventListener('resize', updateRail);
+  updateRail();
+</script>
+ 
+</body>
+</html>
+ 
