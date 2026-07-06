@@ -1,0 +1,504 @@
+calculadora-mayorista.html<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Küyentún — Calculadora Mayorista 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal:#2E5E5A;
+    --teal-deep:#1E403D;
+    --copper:#B87456;
+    --copper-deep:#9C5D42;
+    --cream:#F6F0E4;
+    --cream-card:#FFFCF6;
+    --ink:#2A2620;
+    --ink-soft:#6B6459;
+    --line:#E4D9C6;
+    --gold:#D9A566;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Jost',sans-serif;
+    line-height:1.5;
+  }
+  h1,h2,h3,.display{
+    font-family:'Cormorant Garamond',serif;
+    color:var(--teal-deep);
+    margin:0;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:0 24px 80px;}
+
+  /* HERO */
+  .hero{
+    background:linear-gradient(180deg,var(--teal) 0%,var(--teal-deep) 100%);
+    color:var(--cream);
+    padding:64px 24px 56px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";
+    position:absolute; inset:0;
+    background:radial-gradient(circle at 80% 20%, rgba(217,165,102,0.18), transparent 55%);
+  }
+  .hero-inner{position:relative; max-width:640px; margin:0 auto;}
+  .eyebrow{
+    font-family:'Jost',sans-serif; font-size:12px; letter-spacing:3px; text-transform:uppercase;
+    color:var(--gold); margin-bottom:14px; font-weight:500;
+  }
+  .hero h1{font-size:44px; font-weight:500; line-height:1.1;}
+  .hero em{font-style:italic; color:var(--gold);}
+  .hero p{font-size:16px; color:#DCE9E6; margin-top:16px; font-weight:400;}
+
+  /* MOON PHASE ROW under hero */
+  .moon-legend{
+    display:flex; justify-content:center; gap:28px; margin-top:32px; flex-wrap:wrap;
+  }
+  .moon-legend-item{display:flex; align-items:center; gap:8px; font-size:12.5px; color:#CFE1DD;}
+  .moon-icon{width:20px;height:20px; border-radius:50%; position:relative; flex-shrink:0;}
+  .moon-new{background:#0F2C29; border:1.5px solid #4C7C77;}
+  .moon-half{background:linear-gradient(90deg,#F6F0E4 50%, #0F2C29 50%); border:1.5px solid #4C7C77;}
+  .moon-full{background:var(--gold); border:1.5px solid var(--gold);}
+
+  /* CARD SECTIONS */
+  .card{
+    background:var(--cream-card);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:32px;
+    margin-top:-40px;
+    position:relative;
+    z-index:2;
+  }
+  .section-title{
+    font-size:26px; font-weight:500; margin-bottom:4px;
+  }
+  .section-sub{color:var(--ink-soft); font-size:13.5px; margin-bottom:24px;}
+
+  label{
+    display:block; font-size:12px; letter-spacing:1px; text-transform:uppercase;
+    color:var(--ink-soft); margin-bottom:6px; font-weight:500;
+  }
+  select, input[type=number]{
+    width:100%;
+    font-family:'Jost',sans-serif;
+    font-size:15px;
+    padding:11px 12px;
+    border:1px solid var(--line);
+    border-radius:3px;
+    background:#fff;
+    color:var(--ink);
+  }
+  select:focus, input:focus{outline:2px solid var(--copper); outline-offset:1px;}
+
+  .grid-2{display:grid; grid-template-columns:2fr 1fr; gap:16px;}
+  @media(max-width:560px){.grid-2{grid-template-columns:1fr;}}
+
+  .price-preview{
+    margin-top:20px; padding:18px 20px;
+    background:var(--cream); border:1px dashed var(--copper);
+    border-radius:3px;
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  }
+  .price-preview .amount{font-family:'Cormorant Garamond',serif; font-size:28px; color:var(--copper-deep); font-weight:600;}
+  .tier-tag{font-size:11px; letter-spacing:1px; text-transform:uppercase; color:var(--teal); font-weight:600;}
+  .moon-indicator{display:flex; align-items:center; gap:8px; font-size:12px; color:var(--ink-soft);}
+  .moon-indicator .moon-icon{width:16px;height:16px;}
+
+  button{
+    font-family:'Jost',sans-serif; font-weight:500; font-size:14px;
+    border:none; border-radius:3px; cursor:pointer; letter-spacing:0.4px;
+  }
+  .btn-add{
+    margin-top:20px; width:100%; padding:14px;
+    background:var(--copper); color:#fff; font-size:14.5px;
+    transition:background .15s ease;
+  }
+  .btn-add:hover{background:var(--copper-deep);}
+
+  /* CART */
+  table{width:100%; border-collapse:collapse; margin-top:8px;}
+  th{
+    text-align:left; font-size:11px; letter-spacing:1px; text-transform:uppercase;
+    color:var(--ink-soft); font-weight:500; padding:10px 8px; border-bottom:2px solid var(--line);
+  }
+  td{padding:12px 8px; border-bottom:1px solid var(--line); font-size:14.5px; vertical-align:middle;}
+  td.num, th.num{text-align:right;}
+  .remove-btn{
+    background:none; color:var(--copper-deep); font-size:12px; text-decoration:underline; padding:0;
+  }
+  .empty-cart{color:var(--ink-soft); font-size:14px; padding:24px 0; text-align:center; font-style:italic;}
+
+  .summary{
+    margin-top:24px; padding-top:20px; border-top:2px solid var(--teal);
+  }
+  .summary-row{display:flex; justify-content:space-between; font-size:14.5px; padding:6px 0; color:var(--ink-soft);}
+  .summary-row.total{
+    font-size:22px; color:var(--teal-deep); font-family:'Cormorant Garamond',serif; font-weight:600;
+    border-top:1px solid var(--line); margin-top:8px; padding-top:14px;
+  }
+  .badge{
+    display:inline-block; font-size:11px; padding:3px 10px; border-radius:20px;
+    background:var(--teal); color:#fff; letter-spacing:0.5px; font-weight:500; margin-left:8px;
+  }
+  .badge.warn{background:var(--copper);}
+  .note{font-size:12.5px; color:var(--ink-soft); margin-top:14px; line-height:1.6;}
+
+  footer{
+    text-align:center; padding:36px 24px 10px; color:var(--ink-soft); font-size:13px;
+  }
+  footer .brand{font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--teal); font-style:italic;}
+
+  /* EXPORT BUTTONS */
+  .export-row{
+    display:flex; gap:12px; margin-top:20px; flex-wrap:wrap;
+  }
+  .export-row button{flex:1; min-width:180px; padding:13px;}
+  .btn-outline{
+    background:transparent; color:var(--teal); border:1.5px solid var(--teal) !important;
+  }
+  .btn-outline:hover{background:var(--teal); color:#fff;}
+  .btn-whatsapp{
+    background:#25D366; color:#fff;
+  }
+  .btn-whatsapp:hover{background:#1DA851;}
+
+  .print-only{display:none;}
+
+  /* PRINT / EXPORT-TO-PDF STYLESHEET */
+  @media print{
+    .no-print{display:none !important;}
+    .hero{background:var(--teal) !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; padding:32px 24px;}
+    .hero .moon-legend, .hero p{display:none;}
+    .hero h1{font-size:26px;}
+    .card{margin-top:20px; border:1px solid var(--line); box-shadow:none;}
+    body{background:#fff;}
+    .print-only{display:block; text-align:center; padding:16px 0 4px; font-size:12px; color:var(--ink-soft);}
+    .print-only .brand{font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--teal); font-style:italic;}
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Facilitadoras Küyentún · 2026</div>
+    <h1>Armá tu pedido <em>mayorista</em><br>al instante</h1>
+    <p>Elegí producto y cantidad. El precio se ajusta solo según la escala vigente — sin listas, sin calculadora aparte.</p>
+    <div class="moon-legend">
+      <div class="moon-legend-item"><span class="moon-icon moon-new"></span> Precio base (1–9 u.)</div>
+      <div class="moon-legend-item"><span class="moon-icon moon-half"></span> Escala +10 u.</div>
+      <div class="moon-legend-item"><span class="moon-icon moon-full"></span> Escala +50 u.</div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="card no-print">
+    <div class="section-title">Elegí un producto</div>
+    <div class="section-sub">El precio y la fase lunar de descuento se actualizan según la cantidad.</div>
+
+    <div class="grid-2">
+      <div>
+        <label for="categoria">Categoría</label>
+        <select id="categoria" onchange="onCategoryChange()"></select>
+      </div>
+      <div>
+        <label for="cantidad">Cantidad</label>
+        <input type="number" id="cantidad" min="1" value="10" oninput="updatePreview()">
+      </div>
+    </div>
+
+    <div style="margin-top:16px;">
+      <label for="producto">Producto</label>
+      <select id="producto" onchange="updatePreview()"></select>
+    </div>
+
+    <div id="sizeRow" style="margin-top:16px; display:none;">
+      <label for="talle">Talle (informativo, no afecta el precio)</label>
+      <select id="talle"></select>
+    </div>
+
+    <div class="price-preview">
+      <div>
+        <div class="tier-tag" id="tierTag">Precio base</div>
+        <div class="amount" id="unitPrice">$0</div>
+      </div>
+      <div class="moon-indicator">
+        <span class="moon-icon" id="moonIcon"></span>
+        <span id="moonLabel">1–9 unidades</span>
+      </div>
+    </div>
+
+    <button class="btn-add" onclick="addToOrder()">Agregar al pedido</button>
+  </div>
+
+  <div class="card" style="margin-top:20px;">
+    <div class="section-title">Tu pedido</div>
+    <div class="section-sub">Revisá el detalle antes de confirmar con tu clienta.</div>
+
+    <div style="margin-bottom:18px;">
+      <label for="clienteName">Facilitadora / Clienta (opcional)</label>
+      <input type="text" id="clienteName" placeholder="Ej: Sil — Mar del Plata">
+    </div>
+
+    <div id="cartTableWrap">
+      <div class="empty-cart">Todavía no agregaste productos.</div>
+    </div>
+
+    <div class="summary">
+      <div class="summary-row"><span>Unidades totales</span><span id="sumUnits">0</span></div>
+      <div class="summary-row"><span>Envío</span><span id="sumShipping">A calcular</span></div>
+      <div class="summary-row"><span>Seña requerida (50%)</span><span id="sumSenia">$0</span></div>
+      <div class="summary-row total"><span>Total del pedido</span><span id="sumTotal">$0</span></div>
+    </div>
+
+    <div class="note" id="minNote"></div>
+    <div class="note">* Precios de contado (efectivo / transferencia). Compra +$80.000: 50% off envío a sucursal. Compra +$150.000: envío gratis a sucursal. Mínimo de compra: $50.000. Precios orientativos, sujetos a actualización según lista vigente.</div>
+
+    <div class="export-row no-print">
+      <button class="btn-outline" onclick="exportPDF()">📄 Exportar a PDF</button>
+      <button class="btn-whatsapp" onclick="sendWhatsApp()">💬 Enviar pedido a Küyentún</button>
+    </div>
+  </div>
+
+  <footer class="no-print">
+    <div class="brand">Küyentún®</div>
+    <div>@toallitasdetelaku · www.kuyentuntoallitasecologicas.com.ar</div>
+  </footer>
+
+  <div class="print-only print-footer">
+    <div class="brand">Küyentún®</div>
+    <div>@toallitasdetelaku · www.kuyentuntoallitasecologicas.com.ar</div>
+  </div>
+</div>
+
+<script>
+// ---- Catálogo con escalas de precio [1-9u, 10-49u, 50u+] ----
+const catalog = {
+  "Protectores diarios": [
+    {name:"Protector Mini Less (sin impermeable)", tiers:[3939,3703,3546]},
+    {name:"Protector Mini Vedetina (sin impermeable)", tiers:[3939,3703,3546]},
+    {name:"Protector Mini Less (con impermeable)", tiers:[4666,4386,4199]},
+    {name:"Protector Mini Vedetina (con impermeable)", tiers:[4666,4386,4199]},
+    {name:"Protector Largo Less (sin impermeable)", tiers:[4054,3811,3648]},
+    {name:"Protector Largo Vedetina (sin impermeable)", tiers:[4054,3811,3648]},
+    {name:"Protector Largo Less (con impermeable)", tiers:[5127,4820,4614]},
+    {name:"Protector Largo Vedetina (con impermeable)", tiers:[5127,4820,4614]},
+  ],
+  "Toallitas menstruales": [
+    {name:"Toallita Ligera 19cm Less", tiers:[5175,4865,4658]},
+    {name:"Toallita Ligera 19cm Vedetina", tiers:[5175,4865,4658]},
+    {name:"Toallita Primer Menstruación", tiers:[5175,4865,4658]},
+    {name:"Toallita Regular 22cm Less", tiers:[5768,5422,5191]},
+    {name:"Toallita Regular 22cm Vedetina", tiers:[5768,5422,5191]},
+    {name:"Toallita Moderada 24cm Less", tiers:[6238,5863,5614]},
+    {name:"Toallita Moderada 24cm Vedetina", tiers:[6238,5863,5614]},
+    {name:"Toallita Intensa 26cm Less", tiers:[7122,6695,6410]},
+    {name:"Toallita Intensa 26cm Vedetina", tiers:[7122,6695,6410]},
+    {name:"Toallita Nocturna Larga", tiers:[8129,7641,7316]},
+    {name:"Toallita Post Parto", tiers:[8549,8036,7694]},
+  ],
+  "Complementos": [
+    {name:"Protector Mamario x2", tiers:[6703,6301,6033]},
+    {name:"Sobre Impermeable (no PUL)", tiers:[2520,2369,2268]},
+    {name:"Bolsa de Lienzo 15x20 c/cordón", tiers:[1500,1410,1350]},
+  ],
+  "Bombachas menstruales (precio fijo mayorista)": [
+    {name:"Bombacha Nocturna", tiers:[26400,26400,26400], sizes:["S","M","L","XL","XXL"]},
+    {name:"Bombacha Vedetina", tiers:[24200,24200,24200], sizes:["S","M","L","XL","XXL"]},
+    {name:"Bombacha Culotte Less", tiers:[23100,23100,23100], sizes:["S","M","L","XL"]},
+    {name:"Bombacha Teens", tiers:[20900,20900,20900], sizes:["S","M","L","XL","XXL"]},
+  ]
+};
+
+let order = [];
+
+function fmt(n){
+  return "$" + Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+function tierIndexFor(qty){
+  if(qty>=50) return 2;
+  if(qty>=10) return 1;
+  return 0;
+}
+
+function populateCategories(){
+  const catSel = document.getElementById("categoria");
+  catSel.innerHTML = "";
+  Object.keys(catalog).forEach(cat=>{
+    const opt = document.createElement("option");
+    opt.value = cat; opt.textContent = cat;
+    catSel.appendChild(opt);
+  });
+  onCategoryChange();
+}
+
+function onCategoryChange(){
+  const cat = document.getElementById("categoria").value;
+  const prodSel = document.getElementById("producto");
+  prodSel.innerHTML = "";
+  catalog[cat].forEach((p,i)=>{
+    const opt = document.createElement("option");
+    opt.value = i; opt.textContent = p.name;
+    prodSel.appendChild(opt);
+  });
+  updatePreview();
+}
+
+function currentProduct(){
+  const cat = document.getElementById("categoria").value;
+  const idx = parseInt(document.getElementById("producto").value);
+  return catalog[cat][idx];
+}
+
+function updatePreview(){
+  const p = currentProduct();
+  if(!p) return;
+  const sizeRow = document.getElementById("sizeRow");
+  const talleSel = document.getElementById("talle");
+  if(p.sizes){
+    sizeRow.style.display = "block";
+    talleSel.innerHTML = "";
+    p.sizes.forEach(s=>{
+      const opt = document.createElement("option");
+      opt.value = s; opt.textContent = s;
+      talleSel.appendChild(opt);
+    });
+  } else {
+    sizeRow.style.display = "none";
+  }
+
+  const qty = Math.max(1, parseInt(document.getElementById("cantidad").value) || 1);
+  const tIdx = tierIndexFor(qty);
+  const unit = p.tiers[tIdx];
+
+  document.getElementById("unitPrice").textContent = fmt(unit) + " c/u";
+  const tierLabels = ["Precio base (1–9 u.)","Escala +10 unidades","Escala +50 unidades"];
+  document.getElementById("tierTag").textContent = tierLabels[tIdx];
+
+  const moonIcon = document.getElementById("moonIcon");
+  const moonLabel = document.getElementById("moonLabel");
+  moonIcon.className = "moon-icon " + ["moon-new","moon-half","moon-full"][tIdx];
+  moonLabel.textContent = ["1–9 unidades","10–49 unidades","50+ unidades"][tIdx];
+}
+
+function addToOrder(){
+  const p = currentProduct();
+  const qty = Math.max(1, parseInt(document.getElementById("cantidad").value) || 1);
+  const tIdx = tierIndexFor(qty);
+  const unit = p.tiers[tIdx];
+  const size = p.sizes ? document.getElementById("talle").value : null;
+
+  order.push({
+    name: p.name + (size ? " · Talle " + size : ""),
+    qty: qty,
+    unit: unit,
+    tier: tIdx,
+    subtotal: qty * unit
+  });
+  renderCart();
+}
+
+function removeItem(i){
+  order.splice(i,1);
+  renderCart();
+}
+
+function renderCart(){
+  const wrap = document.getElementById("cartTableWrap");
+  if(order.length === 0){
+    wrap.innerHTML = '<div class="empty-cart">Todavía no agregaste productos.</div>';
+  } else {
+    let html = '<table><thead><tr><th>Producto</th><th class="num">Cant.</th><th class="num">Unit.</th><th class="num">Subtotal</th><th></th></tr></thead><tbody>';
+    order.forEach((item,i)=>{
+      html += `<tr><td>${item.name}</td><td class="num">${item.qty}</td><td class="num">${fmt(item.unit)}</td><td class="num">${fmt(item.subtotal)}</td><td class="num"><button class="remove-btn" onclick="removeItem(${i})">quitar</button></td></tr>`;
+    });
+    html += '</tbody></table>';
+    wrap.innerHTML = html;
+  }
+
+  const totalUnits = order.reduce((a,b)=>a+b.qty,0);
+  const totalAmount = order.reduce((a,b)=>a+b.subtotal,0);
+
+  document.getElementById("sumUnits").textContent = totalUnits;
+  document.getElementById("sumTotal").textContent = fmt(totalAmount);
+  document.getElementById("sumSenia").textContent = fmt(totalAmount * 0.5);
+
+  let shippingText = "A cargo de la clienta";
+  if(totalAmount >= 150000) shippingText = "Gratis a sucursal ✓";
+  else if(totalAmount >= 80000) shippingText = "50% off a sucursal";
+  document.getElementById("sumShipping").textContent = shippingText;
+
+  const minNote = document.getElementById("minNote");
+  if(totalAmount > 0 && totalAmount < 50000){
+    minNote.innerHTML = `<span class="badge warn">Atención</span> Faltan ${fmt(50000-totalAmount)} para llegar al mínimo de compra ($50.000).`;
+  } else if(totalAmount >= 50000){
+    minNote.innerHTML = `<span class="badge">Mínimo cubierto</span> Este pedido puede iniciarse con el 50% de seña.`;
+  } else {
+    minNote.innerHTML = "";
+  }
+}
+
+function buildOrderText(){
+  const cliente = document.getElementById("clienteName").value.trim();
+  const totalUnits = order.reduce((a,b)=>a+b.qty,0);
+  const totalAmount = order.reduce((a,b)=>a+b.subtotal,0);
+  const senia = totalAmount * 0.5;
+  let shipping = "A cargo de la clienta";
+  if(totalAmount >= 150000) shipping = "Gratis a sucursal";
+  else if(totalAmount >= 80000) shipping = "50% off a sucursal";
+
+  let lines = [];
+  lines.push("*Küyentún® — Pedido Mayorista*");
+  if(cliente) lines.push(`Facilitadora/Clienta: ${cliente}`);
+  lines.push("");
+  if(order.length === 0){
+    lines.push("(Sin productos agregados)");
+  } else {
+    order.forEach(item=>{
+      lines.push(`• ${item.name} — ${item.qty} u. x ${fmt(item.unit)} = ${fmt(item.subtotal)}`);
+    });
+  }
+  lines.push("");
+  lines.push(`Unidades totales: ${totalUnits}`);
+  lines.push(`Envío: ${shipping}`);
+  lines.push(`Seña requerida (50%): ${fmt(senia)}`);
+  lines.push(`*TOTAL: ${fmt(totalAmount)}*`);
+  lines.push("");
+  lines.push("Condición: contado (efectivo / transferencia). Mínimo de compra $50.000.");
+  return lines.join("\n");
+}
+
+function exportPDF(){
+  if(order.length === 0){
+    alert("Agregá al menos un producto antes de exportar el pedido.");
+    return;
+  }
+  window.print();
+}
+
+function sendWhatsApp(){
+  if(order.length === 0){
+    alert("Agregá al menos un producto antes de enviar el pedido.");
+    return;
+  }
+  const text = buildOrderText();
+  const numero = "5492345499026"; // WhatsApp Business Küyentún
+  const url = "https://wa.me/" + numero + "?text=" + encodeURIComponent(text);
+  window.open(url, "_blank");
+}
+
+populateCategories();
+updatePreview();
+</script>
+</body>
+</html>
