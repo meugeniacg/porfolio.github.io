@@ -428,9 +428,17 @@
     border-radius:4px;
     width:fit-content;
     transition:background 0.25s ease, gap 0.25s ease;
+    margin-right:12px;
   }
   .project-link:hover{background:#9C5D42;gap:14px;}
   .project-link svg{width:14px;height:14px;}
+  .project-link-outline{
+    background:transparent;
+    color:#B87456;
+    border:1.5px solid #B87456;
+  }
+  .project-link-outline:hover{background:#B87456; color:#fff;}
+  .project-links-row{display:flex; flex-wrap:wrap; gap:0;}
  
   /* ---------- Process timeline ---------- */
   .timeline{position:relative;}
@@ -724,10 +732,16 @@
           <div class="project-tags">
             <span>Branding</span><span>Fotografía</span><span>Diseño</span><span>Marketing</span><span>Atención al cliente</span><span>Ecommerce</span><span>Contenido</span><span>Publicidad</span>
           </div>
-          <a href="calculadora-mayorista.html" class="project-link">
-            Ver calculadora mayorista
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
+          <div class="project-links-row">
+            <a href="propuesta-mayorista.html" class="project-link">
+              Propuesta Mayorista 2026
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            <a href="calculadora-mayorista.html" class="project-link project-link-outline">
+              Calculadora de pedidos
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
         </div>
       </div>
     </section>
