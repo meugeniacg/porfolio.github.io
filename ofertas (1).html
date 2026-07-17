@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Küyentün® — Ofertas</title>
+<meta name="description" content="Ofertas Küyentün: toallitas ecológicas reutilizables en combos con descuento. Por tiempo limitado.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F6F3EA;
+    --cream-card:#FBF9F2;
+    --green-dark:#44523A;
+    --green-mid:#5C6B4E;
+    --sage:#A9B79A;
+    --sage-soft:#DDE4D3;
+    --gray-band:#C9C9C7;
+    --ink:#3A3A34;
+    --gold:#B8935A;
+    --wa:#2D7D78;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Poppins',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .serif{font-family:'Cormorant Garamond',serif}
+
+  /* ---------- top band + header ---------- */
+  .top-band{height:26px;background:var(--gray-band)}
+  header{
+    max-width:1160px;margin:0 auto;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:28px 24px 10px;
+  }
+  .wordmark{
+    font-size:15px;letter-spacing:.55em;text-indent:.55em;
+    color:var(--green-dark);font-weight:500;text-transform:uppercase;
+  }
+  .sale-pill{
+    border:1px solid var(--green-mid);border-radius:999px;
+    padding:8px 26px;font-size:12px;letter-spacing:.35em;text-indent:.35em;
+    color:var(--green-dark);text-transform:uppercase;background:transparent;
+  }
+
+  /* ---------- hero ---------- */
+  .hero{max-width:1160px;margin:0 auto;padding:44px 24px 8px;text-align:center;position:relative}
+  .hero .eyebrow{
+    font-size:11px;letter-spacing:.4em;text-indent:.4em;text-transform:uppercase;
+    color:var(--green-mid);margin-bottom:18px;
+  }
+  .hero h1{
+    font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;
+    font-size:clamp(44px,7vw,76px);color:var(--green-dark);line-height:1.05;
+  }
+  .hero p{
+    max-width:520px;margin:20px auto 0;font-size:14px;line-height:1.8;color:#6b6b60;
+  }
+  .hero .blob{
+    position:absolute;left:-120px;bottom:-60px;width:280px;height:280px;
+    background:var(--sage-soft);border-radius:50%;opacity:.55;z-index:-1;
+  }
+  .dots{display:flex;gap:7px;justify-content:center;margin:26px 0 6px}
+  .dots span{width:9px;height:9px;border-radius:50%;background:var(--sage-soft)}
+  .dots span:nth-child(2),.dots span:nth-child(3){background:var(--sage)}
+  .dots span:nth-child(4){background:var(--green-mid)}
+
+  /* ---------- filtros ---------- */
+  .filters{
+    max-width:1160px;margin:26px auto 8px;padding:0 24px;
+    display:flex;gap:10px;flex-wrap:wrap;justify-content:center;
+  }
+  .filters button{
+    font-family:'Poppins',sans-serif;font-size:11px;letter-spacing:.28em;text-indent:.28em;
+    text-transform:uppercase;color:var(--green-dark);
+    background:transparent;border:1px solid var(--sage);border-radius:999px;
+    padding:9px 22px;cursor:pointer;transition:all .25s ease;
+  }
+  .filters button:hover{background:var(--sage-soft)}
+  .filters button.active{background:var(--green-dark);border-color:var(--green-dark);color:var(--cream)}
+
+  /* ---------- grid de ofertas ---------- */
+  .grid{
+    max-width:1160px;margin:34px auto 10px;padding:0 24px;
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:34px;
+  }
+  .card{
+    background:var(--cream-card);
+    border:1px solid #E7E2D2;border-radius:6px;overflow:hidden;
+    display:flex;flex-direction:column;
+    box-shadow:0 10px 28px rgba(68,82,58,.07);
+    transition:transform .3s ease, box-shadow .3s ease;
+    opacity:0;transform:translateY(14px);
+  }
+  .card.show{opacity:1;transform:translateY(0)}
+  .card:hover{transform:translateY(-5px);box-shadow:0 18px 38px rgba(68,82,58,.13)}
+  .card .photo{position:relative;aspect-ratio:1/1;background:var(--sage-soft);overflow:hidden}
+  .card .photo img{width:100%;height:100%;object-fit:cover;display:block}
+  .card .photo .placeholder{
+    position:absolute;inset:0;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:10px;
+    color:var(--green-mid);
+  }
+  .card .photo .placeholder .mark{
+    font-family:'Cormorant Garamond',serif;font-style:italic;font-size:34px;color:var(--green-dark);
+  }
+  .card .photo .placeholder small{font-size:10px;letter-spacing:.3em;text-indent:.3em;text-transform:uppercase}
+  .badge{
+    position:absolute;top:14px;left:14px;z-index:2;
+    background:var(--green-dark);color:var(--cream);
+    font-size:10px;letter-spacing:.25em;text-indent:.25em;text-transform:uppercase;
+    padding:7px 14px;border-radius:999px;
+  }
+  .card .info{padding:26px 22px 26px;text-align:center;display:flex;flex-direction:column;flex:1}
+  .card h2{
+    font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;
+    font-size:30px;color:var(--green-dark);line-height:1.1;
+  }
+  .card .detalle{
+    margin-top:10px;font-size:10.5px;letter-spacing:.22em;text-indent:.22em;
+    text-transform:uppercase;color:#8a8a7d;line-height:1.9;
+  }
+  .card .precio{
+    font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;
+    font-size:34px;color:var(--green-dark);margin-top:14px;
+  }
+  .card .btn-wa{
+    margin-top:auto;padding-top:20px;
+  }
+  .card .btn-wa a{
+    display:inline-block;text-decoration:none;
+    border:1px solid var(--green-mid);border-radius:999px;
+    color:var(--green-dark);font-size:11px;letter-spacing:.25em;text-indent:.25em;
+    text-transform:uppercase;padding:11px 26px;transition:all .25s ease;
+  }
+  .card .btn-wa a:hover{background:var(--green-dark);color:var(--cream);border-color:var(--green-dark)}
+
+  /* ---------- aviso ---------- */
+  .aviso{
+    max-width:640px;margin:44px auto 0;padding:0 24px;text-align:center;
+    font-size:12px;line-height:2;color:#8a8a7d;
+  }
+  .aviso strong{color:var(--green-dark);font-weight:600}
+
+  /* ---------- footer ---------- */
+  footer{margin-top:56px;padding:44px 24px 54px;text-align:center;position:relative;overflow:hidden}
+  footer .blob{
+    position:absolute;right:-140px;top:-40px;width:300px;height:300px;
+    background:var(--sage-soft);border-radius:50%;opacity:.5;z-index:-1;
+  }
+  footer .lema{
+    font-size:12px;letter-spacing:.45em;text-indent:.45em;text-transform:uppercase;
+    color:var(--green-mid);
+  }
+  footer .redes{margin-top:16px;font-size:12px;color:#8a8a7d;line-height:2}
+  footer .redes a{color:var(--green-dark);text-decoration:none}
+  footer .cta{margin-top:26px}
+  footer .cta a{
+    display:inline-block;text-decoration:none;background:var(--green-dark);color:var(--cream);
+    border-radius:999px;padding:14px 34px;font-size:12px;letter-spacing:.25em;text-indent:.25em;
+    text-transform:uppercase;transition:opacity .25s ease;
+  }
+  footer .cta a:hover{opacity:.85}
+
+  @media (max-width:600px){
+    .grid{gap:24px}
+    .card h2{font-size:27px}
+  }
+</style>
+</head>
+<body>
+
+<div class="top-band"></div>
+
+<header>
+  <div class="wordmark">Küyentün</div>
+  <div class="sale-pill">Sale</div>
+</header>
+
+<section class="hero">
+  <div class="blob"></div>
+  <div class="eyebrow">Ofertas · Por tiempo limitado</div>
+  <h1>Ofertas Küyentün</h1>
+  <p>Combos de toallitas ecológicas reutilizables a precio especial. Hechas a mano, pensadas para durar. Hasta agotar stock.</p>
+  <div class="dots"><span></span><span></span><span></span><span></span><span></span></div>
+</section>
+
+<nav class="filters" id="filters">
+  <button data-f="todos" class="active">Todas</button>
+  <button data-f="combo">Combos</button>
+  <button data-f="outlet">Outlet · 20% extra</button>
+  <button data-f="maternidad">Maternidad</button>
+</nav>
+
+<main class="grid" id="grid"></main>
+
+<p class="aviso">
+  <strong>Cómo comprar:</strong> escribinos por WhatsApp con el nombre de la oferta.
+  Stock limitado · Los estampados y colores pueden variar según disponibilidad ·
+  10% off extra abonando en efectivo o transferencia.
+</p>
+
+<footer>
+  <div class="blob"></div>
+  <div class="lema">Ame tu ser</div>
+  <div class="redes">
+    <a href="https://www.instagram.com/toallitasdetelaku" target="_blank" rel="noopener">@toallitasdetelaku</a><br>
+    www.kuyentuntoallitasecologicas.com.ar
+  </div>
+  <div class="cta">
+    <a id="wa-general" href="#" target="_blank" rel="noopener">💬 Pedir por WhatsApp</a>
+  </div>
+</footer>
+
+<script>
+  // ============ CONFIGURACIÓN ============
+  const WHATSAPP = "5492345499026"; // número de la marca
+
+  // Las imágenes están ubicadas junto a este archivo en el repositorio.
+  // Si falta una foto, la tarjeta muestra un fondo verde con el nombre.
+  const OFERTAS = [
+    {n:"Ligera + Mini",       d:"Toallita Ligera x2 + Protector Mini",                 p:"$16.900", img:"ligera-mini.jpg",       cat:"combo"},
+    {n:"Combo Moderada",      d:"Moderada + Regular x2 + Protector",                   p:"$23.900", img:"combo-moderada.jpg",    cat:"combo"},
+    {n:"Set del día",         d:"Toallita Regular + Ligera x2 + Protector Mini",       p:"$23.900", img:"set-del-dia.jpg",       cat:"combo"},
+    {n:"Combo Vedetina",      d:"Moderada x2 + Regular",                               p:"$20.900", img:"combo-vedetina.jpg",    cat:"combo"},
+    {n:"Regular x 3",         d:"Toallita Regular Less x3 · Varios colores",           p:"$17.900", img:"regular-x3.jpg",        cat:"combo"},
+    {n:"Nocturna + Mini x2",  d:"Nocturna Larga + Protector Mini x2 Vedetina",         p:"$16.900", img:"nocturna-mini.jpg",     cat:"combo"},
+    {n:"Regular + Protector", d:"Toallita Regular + Protector Incontinencia",          p:"$9.900",  img:"regular-protector.jpg", cat:"combo"},
+    {n:"Less en oferta",      d:"Less Moderada x2 + Less Regular · Algodón natural sin tintes", p:"$21.900", img:"less-oferta.jpg", cat:"combo", badge:"30% OFF"},
+    {n:"Intensa + Nocturna",  d:"Con fallas estéticas · 20% off extra",                p:"$11.900", img:"intensa-nocturna.jpg",  cat:"outlet", badge:"Outlet"},
+    {n:"Nocturna Max x2",     d:"Con fallas estéticas · 20% off extra",                p:"$12.720", img:"nocturna-max.jpg",      cat:"outlet", badge:"Outlet"},
+    {n:"Protector Mamario x4",d:"Absorbentes de lactancia",                            p:"$9.800",  img:"protector-mamario.jpg", cat:"maternidad"},
+  ];
+  // =======================================
+
+  const grid = document.getElementById("grid");
+
+  function waLink(nombre){
+    const txt = encodeURIComponent("Hola! Quiero la oferta " + nombre + " 🌿");
+    return "https://wa.me/" + WHATSAPP + "?text=" + txt;
+  }
+
+  function render(filtro){
+    grid.innerHTML = "";
+    OFERTAS
+      .filter(o => filtro === "todos" || o.cat === filtro)
+      .forEach((o, i) => {
+        const card = document.createElement("article");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="photo">
+            ${o.badge ? `<span class="badge">${o.badge}</span>` : ""}
+            <div class="placeholder">
+              <span class="mark">${o.n}</span>
+              <small>Küyentün</small>
+            </div>
+          </div>
+          <div class="info">
+            <h2>${o.n}</h2>
+            <div class="detalle">${o.d}</div>
+            <div class="precio">${o.p}</div>
+            <div class="btn-wa"><a href="${waLink(o.n)}" target="_blank" rel="noopener">Lo quiero</a></div>
+          </div>`;
+        grid.appendChild(card);
+        setTimeout(() => card.classList.add("show"), 60 * i);
+      });
+  }
+
+  document.getElementById("filters").addEventListener("click", e => {
+    if (e.target.tagName !== "BUTTON") return;
+    document.querySelectorAll("#filters button").forEach(b => b.classList.remove("active"));
+    e.target.classList.add("active");
+    render(e.target.dataset.f);
+  });
+
+  document.getElementById("wa-general").href =
+    "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent("Hola! Quiero consultar por las ofertas Küyentün 🌿");
+
+  render("todos");
+</script>
+
+</body>
+</html>
