@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Küyentün® — Ofertas</title>
 <meta name="description" content="Ofertas Küyentün: toallitas ecológicas reutilizables en combos con descuento. Por tiempo limitado.">
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J3HCFSS7TF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-J3HCFSS7TF');
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
@@ -264,7 +272,7 @@
             <h2>${o.n}</h2>
             <div class="detalle">${o.d}</div>
             <div class="precio">${o.p}</div>
-            <div class="btn-wa"><a href="${waLink(o.n)}" target="_blank" rel="noopener">Lo quiero</a></div>
+            <div class="btn-wa"><a href="${waLink(o.n)}" data-offer="${o.n}" target="_blank" rel="noopener">Lo quiero</a></div>
           </div>`;
         grid.appendChild(card);
         setTimeout(() => card.classList.add("show"), 60 * i);
@@ -275,14 +283,37 @@
     if (e.target.tagName !== "BUTTON") return;
     document.querySelectorAll("#filters button").forEach(b => b.classList.remove("active"));
     e.target.classList.add("active");
-    render(e.target.dataset.f);
+    const filterName = e.target.dataset.f;
+    render(filterName);
+    gtag('event', 'offer_filter_select', {
+      filter_name: filterName
+    });
   });
 
   document.getElementById("wa-general").href =
     "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent("Hola! Quiero consultar por las ofertas Küyentün 🌿");
+
+  document.addEventListener("click", e => {
+    const offerLink = e.target.closest(".btn-wa a");
+    if (offerLink) {
+      gtag('event', 'whatsapp_offer_click', {
+        offer_name: offerLink.dataset.offer,
+        link_url: offerLink.href
+      });
+      return;
+    }
+
+    const generalLink = e.target.closest("#wa-general");
+    if (generalLink) {
+      gtag('event', 'whatsapp_general_click', {
+        link_url: generalLink.href
+      });
+    }
+  });
 
   render("todos");
 </script>
 
 </body>
 </html>
+
