@@ -108,7 +108,7 @@
   .card.show{opacity:1;transform:translateY(0)}
   .card:hover{transform:translateY(-5px);box-shadow:0 18px 38px rgba(68,82,58,.13)}
   .card .photo{position:relative;aspect-ratio:1/1;background:var(--sage-soft);overflow:hidden}
-  .card .photo img{width:100%;height:100%;object-fit:cover;display:block}
+  .card .photo img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover;display:block}
   .card .photo .placeholder{
     position:absolute;inset:0;display:flex;flex-direction:column;
     align-items:center;justify-content:center;gap:10px;
@@ -208,9 +208,9 @@
 <main class="grid" id="grid"></main>
 
 <p class="aviso">
-  <strong>Cómo comprar:</strong> escribinos por WhatsApp con el nombre de la oferta.
-  Stock limitado · Los estampados y colores pueden variar según disponibilidad ·
-  10% off extra abonando en efectivo o transferencia.
+  <strong>Cómo comprar:</strong> elegí una oferta y tocá “Lo quiero”.
+  El precio publicado corresponde a los productos · Envío por Correo Argentino: $6.800 ·
+  Stock limitado · Los estampados y colores pueden variar según disponibilidad.
 </p>
 
 <footer>
@@ -232,24 +232,24 @@
   // Las imágenes están ubicadas junto a este archivo en el repositorio.
   // Si falta una foto, la tarjeta muestra un fondo verde con el nombre.
   const OFERTAS = [
-    {n:"Ligera + Mini",       d:"Toallita Ligera x2 + Protector Mini",                 p:"$16.900", img:"ligera-mini.jpg",       cat:"combo"},
-    {n:"Combo Moderada",      d:"Moderada + Regular x2 + Protector",                   p:"$23.900", img:"combo-moderada.jpg",    cat:"combo"},
-    {n:"Set del día",         d:"Toallita Regular + Ligera x2 + Protector Mini",       p:"$23.900", img:"set-del-dia.jpg",       cat:"combo"},
-    {n:"Combo Vedetina",      d:"Moderada x2 + Regular",                               p:"$20.900", img:"combo-vedetina.jpg",    cat:"combo"},
-    {n:"Regular x 3",         d:"Toallita Regular Less x3 · Varios colores",           p:"$17.900", img:"regular-x3.jpg",        cat:"combo"},
-    {n:"Nocturna + Mini x2",  d:"Nocturna Larga + Protector Mini x2 Vedetina",         p:"$16.900", img:"nocturna-mini.jpg",     cat:"combo"},
-    {n:"Regular + Protector", d:"Toallita Regular + Protector Incontinencia",          p:"$9.900",  img:"regular-protector.jpg", cat:"combo"},
-    {n:"Less en oferta",      d:"Less Moderada x2 + Less Regular · Algodón natural sin tintes", p:"$21.900", img:"less-oferta.jpg", cat:"combo", badge:"30% OFF"},
-    {n:"Intensa + Nocturna",  d:"Con fallas estéticas · 20% off extra",                p:"$11.900", img:"intensa-nocturna.jpg",  cat:"outlet", badge:"Outlet"},
-    {n:"Nocturna Max x2",     d:"Con fallas estéticas · 20% off extra",                p:"$12.720", img:"nocturna-max.jpg",      cat:"outlet", badge:"Outlet"},
-    {n:"Protector Mamario x4",d:"Absorbentes de lactancia",                            p:"$9.800",  img:"protector-mamario.jpg", cat:"maternidad"},
+    {code:"OFERTA-01", n:"Ligera + Mini",        d:"Toallita Ligera x2 + Protector Mini",                 p:"$16.900", img:"ligera-mini.jpg",       cat:"combo"},
+    {code:"OFERTA-02", n:"Combo Moderada",       d:"Moderada + Regular x2 + Protector",                   p:"$23.900", img:"combo-moderada.jpg",    cat:"combo"},
+    {code:"OFERTA-03", n:"Set del día",          d:"Toallita Regular + Ligera x2 + Protector Mini",       p:"$23.900", img:"set-del-dia.jpg",       cat:"combo"},
+    {code:"OFERTA-04", n:"Combo Vedetina",       d:"Moderada x2 + Regular",                               p:"$20.900", img:"combo-vedetina.jpg",    cat:"combo"},
+    {code:"OFERTA-05", n:"Regular x 3",          d:"Toallita Regular Less x3 · Varios colores",           p:"$17.900", img:"regular-x3.jpg",        cat:"combo"},
+    {code:"OFERTA-06", n:"Nocturna + Mini x2",   d:"Nocturna Larga + Protector Mini x2 Vedetina",         p:"$16.900", img:"nocturna-mini.jpg",     cat:"combo"},
+    {code:"OFERTA-07", n:"Regular + Protector",  d:"Toallita Regular + Protector Incontinencia",          p:"$9.900",  img:"regular-protector.jpg", cat:"combo"},
+    {code:"OFERTA-08", n:"Less en oferta",       d:"Less Moderada x2 + Less Regular · Algodón natural sin tintes", p:"$21.900", img:"less-oferta.jpg", cat:"combo", badge:"30% OFF"},
+    {code:"OFERTA-09", n:"Intensa + Nocturna",   d:"Con fallas estéticas · 20% off extra",                p:"$11.900", img:"intensa-nocturna.jpg",  cat:"outlet", badge:"Outlet"},
+    {code:"OFERTA-10", n:"Nocturna Max x2",      d:"Con fallas estéticas · 20% off extra",                p:"$12.720", img:"nocturna-max.jpg",      cat:"outlet", badge:"Outlet"},
+    {code:"OFERTA-11", n:"Protector Mamario x4", d:"Absorbentes de lactancia",                            p:"$9.800",  img:"protector-mamario.jpg", cat:"maternidad"},
   ];
   // =======================================
 
   const grid = document.getElementById("grid");
 
-  function waLink(nombre){
-    const txt = encodeURIComponent("Hola! Quiero la oferta " + nombre + " 🌿");
+  function waLink(oferta){
+    const txt = encodeURIComponent("Hola! Quiero comprar " + oferta.n + " [" + oferta.code + "]");
     return "https://wa.me/" + WHATSAPP + "?text=" + txt;
   }
 
@@ -267,12 +267,13 @@
               <span class="mark">${o.n}</span>
               <small>Küyentün</small>
             </div>
+            <img src="${o.img}" alt="${o.n}" loading="lazy" onerror="this.remove()">
           </div>
           <div class="info">
             <h2>${o.n}</h2>
             <div class="detalle">${o.d}</div>
             <div class="precio">${o.p}</div>
-            <div class="btn-wa"><a href="${waLink(o.n)}" data-offer="${o.n}" target="_blank" rel="noopener">Lo quiero</a></div>
+            <div class="btn-wa"><a href="${waLink(o)}" data-offer="${o.n}" data-offer-code="${o.code}" target="_blank" rel="noopener">Lo quiero</a></div>
           </div>`;
         grid.appendChild(card);
         setTimeout(() => card.classList.add("show"), 60 * i);
@@ -298,6 +299,7 @@
     if (offerLink) {
       gtag('event', 'whatsapp_offer_click', {
         offer_name: offerLink.dataset.offer,
+        offer_code: offerLink.dataset.offerCode,
         link_url: offerLink.href
       });
       return;
@@ -316,4 +318,3 @@
 
 </body>
 </html>
-
