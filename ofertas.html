@@ -28,6 +28,8 @@
     --ink:#3A3A34;
     --gold:#B8935A;
     --wa:#2D7D78;
+    --danger:#8A625D;
+    --shadow:0 18px 45px rgba(68,82,58,.11);
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -247,6 +249,96 @@
     }
   }
 
+
+  .catalog-meta{
+    max-width:1112px;
+    margin:18px auto 0;
+    padding:0 24px;
+    display:flex;
+    justify-content:space-between;
+    gap:18px;
+    color:#858578;
+    font-size:11px;
+    letter-spacing:.08em;
+  }
+  .catalog-meta strong{color:var(--green-dark)}
+
+  .featured-price{
+    margin-top:10px;
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    font-size:28px;
+    color:var(--green-dark);
+  }
+
+  .wa-float{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    z-index:50;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:116px;
+    height:48px;
+    padding:0 20px;
+    border-radius:999px;
+    background:var(--wa);
+    color:#fff;
+    text-decoration:none;
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    box-shadow:0 12px 30px rgba(45,125,120,.3);
+    transition:transform .2s ease, opacity .2s ease;
+  }
+  .wa-float:hover{transform:translateY(-3px);opacity:.92}
+
+  .card.destacada{
+    border:1px solid var(--gold);
+    box-shadow:var(--shadow);
+  }
+  .card.destacada::before{
+    content:"Destacada";
+    display:block;
+    background:var(--gold);
+    color:#fff;
+    text-align:center;
+    font-size:9px;
+    letter-spacing:.25em;
+    text-transform:uppercase;
+    padding:7px;
+  }
+
+  .empty-state{
+    grid-column:1/-1;
+    text-align:center;
+    padding:70px 20px;
+    color:#7D7D71;
+  }
+  .empty-state h2{
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    color:var(--green-dark);
+    font-size:34px;
+  }
+  .empty-state p{margin-top:8px;font-size:13px}
+
+  @media (max-width:700px){
+    .catalog-meta{
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+      gap:4px;
+    }
+    .wa-float{
+      right:14px;
+      bottom:14px;
+      min-width:104px;
+      height:44px;
+    }
+  }
+
   @media (max-width:600px){
     .grid{gap:24px}
     .card h2{font-size:27px}
@@ -262,8 +354,9 @@
   <div class="sale-pill">Sale</div>
 </header>
 
-<div class="julio-banner">
-  <strong>Ofertas exclusivas de julio</strong> · Stock real y limitado
+<div class="julio-banner" id="campaign-banner">
+  <strong id="campaign-title">Ofertas exclusivas</strong>
+  <span> · Stock real y limitado</span>
 </div>
 
 <section class="hero">
@@ -275,11 +368,12 @@
 </section>
 
 
-<section class="destacado">
+<section class="destacado" id="featured-section">
   <div>
     <div class="tag">Destacado de la semana</div>
-    <h2>Protectores diarios reutilizables</h2>
-    <p>Una opción suave, cómoda y reutilizable para todos los días. Consultá la promoción semanal y los modelos disponibles.</p>
+    <h2 id="featured-title">Protectores diarios reutilizables</h2>
+    <p id="featured-description">Una opción suave, cómoda y reutilizable para todos los días.</p>
+    <div class="featured-price" id="featured-price"></div>
   </div>
   <a id="wa-destacado" href="#" target="_blank" rel="noopener">Consultar oferta</a>
 </section>
@@ -290,6 +384,11 @@
   <button data-f="outlet">Outlet · 20% extra</button>
   <button data-f="maternidad">Maternidad</button>
 </nav>
+
+<section class="catalog-meta">
+  <p><strong id="available-count">0</strong> ofertas disponibles</p>
+  <p>Última actualización: <span id="last-update"></span></p>
+</section>
 
 <main class="grid" id="grid"></main>
 
@@ -311,19 +410,36 @@
   </div>
 </footer>
 
+<a class="wa-float" id="wa-float" href="#" target="_blank" rel="noopener" aria-label="Consultar por WhatsApp">
+  WhatsApp
+</a>
+
 <script>
   // ============ CONFIGURACIÓN ============
   const WHATSAPP = "5492345499026"; // número de la marca
 
+  // ===== DATOS FÁCILES DE EDITAR =====
+  const CONFIG = {
+    ocultarAgotados: true,
+    mostrarContador: true,
+    ultimaActualizacion: "21 de julio de 2026",
+    destacado: {
+      titulo: "Protectores diarios reutilizables",
+      descripcion: "Una opción suave, cómoda y reutilizable para todos los días. Consultá modelos y promoción vigente.",
+      precio: "Oferta semanal",
+      mensajeWhatsApp: "Hola! Quiero consultar la oferta destacada de protectores diarios reutilizables."
+    }
+  };
+
   // Las imágenes están ubicadas junto a este archivo en el repositorio.
   // Si falta una foto, la tarjeta muestra un fondo verde con el nombre.
   const OFERTAS = [
-    {code:"OFERTA-01", n:"Ligera + Mini",        d:"Toallita Ligera x2 + Protector Mini",                 p:"$16.900", img:"ligera-mini.jpg",       cat:"combo"},
-    {code:"OFERTA-03", n:"Set del día",          d:"Toallita Regular + Ligera x2 + Protector Mini",       p:"$23.900", img:"set-del-dia.jpg",       cat:"combo"},
-    {code:"OFERTA-04", n:"Combo Vedetina",       d:"Moderada x2 + Regular",                               p:"$20.900", img:"combo-vedetina.jpg",    cat:"combo"},
-    {code:"OFERTA-07", n:"Regular + Protector",  d:"Toallita Regular + Protector Incontinencia",          p:"$9.900",  img:"regular-protector.jpg", cat:"combo"},
-    {code:"OFERTA-08", n:"Less en oferta",       d:"Less Moderada x2 + Less Regular · Algodón natural sin tintes", p:"$21.900", img:"less-oferta.jpg", cat:"combo", badge:"30% OFF"},
-    {code:"OFERTA-11", n:"Protector Mamario x4", d:"Absorbentes de lactancia",                            p:"$9.800",  img:"protector-mamario.jpg", cat:"maternidad"},
+    {code:"OFERTA-01", n:"Ligera + Mini", d:"Toallita Ligera x2 + Protector Mini", p:"$16.900", img:"ligera-mini.jpg", cat:"combo", disponible:true},
+    {code:"OFERTA-03", n:"Set del día", d:"Toallita Regular + Ligera x2 + Protector Mini", p:"$23.900", img:"set-del-dia.jpg", cat:"combo", disponible:true, destacada:true},
+    {code:"OFERTA-04", n:"Combo Vedetina", d:"Moderada x2 + Regular", p:"$20.900", img:"combo-vedetina.jpg", cat:"combo", disponible:true},
+    {code:"OFERTA-07", n:"Regular + Protector", d:"Toallita Regular + Protector Incontinencia", p:"$9.900", img:"regular-protector.jpg", cat:"combo", disponible:true},
+    {code:"OFERTA-08", n:"Less en oferta", d:"Less Moderada x2 + Less Regular · Algodón natural sin tintes", p:"$21.900", img:"less-oferta.jpg", cat:"combo", disponible:true, badge:"30% OFF"},
+    {code:"OFERTA-11", n:"Protector Mamario x4", d:"Absorbentes de lactancia", p:"$9.800", img:"protector-mamario.jpg", cat:"maternidad", disponible:true},
   ];
   // =======================================
 
@@ -336,35 +452,61 @@
 
   function render(filtro){
     grid.innerHTML = "";
-    OFERTAS
-      .filter(o => filtro === "todos" || o.cat === filtro)
-      .forEach((o, i) => {
-        const card = document.createElement("article");
-        card.className = "card";
-        card.innerHTML = `
-          <div class="photo">
-            ${o.badge ? `<span class="badge">${o.badge}</span>` : ""}
-            <div class="placeholder">
-              <span class="mark">${o.n}</span>
-              <small>Küyentún</small>
-            </div>
-          </div>
-          <div class="info">
-            <h2>${o.n}</h2>
-            <div class="detalle">${o.d}</div>
-            <div class="precio">${o.p}</div>
-            <div class="btn-wa">
-              <a href="${waLink(o)}"
-                 data-offer="${o.n}"
-                 data-offer-code="${o.code}"
-                 target="_blank"
-                 rel="noopener">Lo quiero</a>
-            </div>
-          </div>`;
 
-        grid.appendChild(card);
-        setTimeout(() => card.classList.add("show"), 60 * i);
-      });
+    const visibles = OFERTAS.filter(o => {
+      const coincideFiltro = filtro === "todos" || o.cat === filtro;
+      const puedeMostrarse = !CONFIG.ocultarAgotados || o.disponible;
+      return coincideFiltro && puedeMostrarse;
+    });
+
+    document.getElementById("available-count").textContent =
+      OFERTAS.filter(o => o.disponible).length;
+
+    if (!visibles.length){
+      grid.innerHTML = `
+        <div class="empty-state">
+          <h2>No quedan ofertas en esta categoría</h2>
+          <p>Podés consultar nuevas tandas por WhatsApp.</p>
+        </div>`;
+      return;
+    }
+
+    visibles.forEach((o, i) => {
+      const card = document.createElement("article");
+      card.className = o.destacada ? "card destacada" : "card";
+
+      const badge = o.badge
+        ? `<span class="badge">${o.badge}</span>`
+        : "";
+
+      const action = o.disponible
+        ? `<div class="btn-wa">
+             <a href="${waLink(o)}"
+                data-offer="${o.n}"
+                data-offer-code="${o.code}"
+                target="_blank"
+                rel="noopener">Lo quiero</a>
+           </div>`
+        : `<div class="btn-wa"><span class="btn-agotado">Agotado</span></div>`;
+
+      card.innerHTML = `
+        <div class="photo">
+          ${badge}
+          <div class="placeholder">
+            <span class="mark">${o.n}</span>
+            <small>Küyentún</small>
+          </div>
+        </div>
+        <div class="info">
+          <h2>${o.n}</h2>
+          <div class="detalle">${o.d}</div>
+          <div class="precio">${o.p}</div>
+          ${action}
+        </div>`;
+
+      grid.appendChild(card);
+      setTimeout(() => card.classList.add("show"), 60 * i);
+    });
   }
 
   document.getElementById("filters").addEventListener("click", e => {
@@ -378,9 +520,29 @@
     });
   });
 
+  const monthNames = [
+    "enero","febrero","marzo","abril","mayo","junio",
+    "julio","agosto","septiembre","octubre","noviembre","diciembre"
+  ];
+  document.getElementById("campaign-title").textContent =
+    "Ofertas exclusivas de " + monthNames[new Date().getMonth()];
+
+  document.getElementById("featured-title").textContent = CONFIG.destacado.titulo;
+  document.getElementById("featured-description").textContent = CONFIG.destacado.descripcion;
+  document.getElementById("featured-price").textContent = CONFIG.destacado.precio;
+  document.getElementById("last-update").textContent = CONFIG.ultimaActualizacion;
+
+  if (!CONFIG.mostrarContador){
+    document.querySelector(".catalog-meta").style.display = "none";
+  }
+
   document.getElementById("wa-destacado").href =
     "https://wa.me/" + WHATSAPP + "?text=" +
-    encodeURIComponent("Hola! Quiero consultar la oferta destacada de protectores diarios reutilizables.");
+    encodeURIComponent(CONFIG.destacado.mensajeWhatsApp);
+
+  document.getElementById("wa-float").href =
+    "https://wa.me/" + WHATSAPP + "?text=" +
+    encodeURIComponent("Hola! Quiero consultar por las ofertas disponibles.");
 
   document.getElementById("wa-general").href =
     "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent("Hola! Quiero consultar por las ofertas Küyentün 🌿");
