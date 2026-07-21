@@ -28,8 +28,6 @@
     --ink:#3A3A34;
     --gold:#B8935A;
     --wa:#2D7D78;
-    --sold:#76766F;
-    --highlight:#EFE8D8;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -178,7 +176,7 @@
   footer .cta a:hover{opacity:.85}
 
 
-  /* ---------- campaña de julio ---------- */
+  /* ---------- julio ---------- */
   .julio-banner{
     max-width:1112px;
     margin:18px auto 0;
@@ -193,12 +191,12 @@
   }
   .julio-banner strong{font-weight:600}
 
-  /* ---------- destacado semanal ---------- */
+  /* ---------- destacado de la semana ---------- */
   .destacado{
     max-width:1112px;
     margin:34px auto 8px;
     padding:28px;
-    background:var(--highlight);
+    background:#EFE8D8;
     border:1px solid #DED3BC;
     border-radius:8px;
     display:grid;
@@ -237,42 +235,6 @@
     font-size:10px;
     letter-spacing:.22em;
     text-transform:uppercase;
-  }
-
-  /* ---------- estado agotado ---------- */
-  .card.card-agotada{
-    opacity:1;
-    filter:none;
-  }
-  .card.card-agotada .photo img{
-    filter:grayscale(1);
-    opacity:.52;
-  }
-  .card.card-agotada .info{
-    opacity:.72;
-  }
-  .card.card-agotada:hover{
-    transform:translateY(0);
-    box-shadow:0 10px 28px rgba(68,82,58,.07);
-  }
-  .badge.badge-agotado{
-    background:var(--sold);
-    color:#fff;
-    font-weight:600;
-    letter-spacing:.18em;
-  }
-  .btn-agotado{
-    display:inline-block;
-    background:#E2E0DA;
-    border:1px solid #C8C5BC;
-    color:#706F69;
-    border-radius:999px;
-    padding:11px 26px;
-    font-size:11px;
-    letter-spacing:.25em;
-    text-indent:.25em;
-    text-transform:uppercase;
-    cursor:not-allowed;
   }
 
   @media (max-width:700px){
@@ -317,7 +279,7 @@
   <div>
     <div class="tag">Destacado de la semana</div>
     <h2>Protectores diarios reutilizables</h2>
-    <p>Una opción suave y reutilizable para todos los días. Consultá la promoción semanal y los modelos disponibles.</p>
+    <p>Una opción suave, cómoda y reutilizable para todos los días. Consultá la promoción semanal y los modelos disponibles.</p>
   </div>
   <a id="wa-destacado" href="#" target="_blank" rel="noopener">Consultar oferta</a>
 </section>
@@ -356,17 +318,12 @@
   // Las imágenes están ubicadas junto a este archivo en el repositorio.
   // Si falta una foto, la tarjeta muestra un fondo verde con el nombre.
   const OFERTAS = [
-    {code:"OFERTA-01", n:"Ligera + Mini",        d:"Toallita Ligera x2 + Protector Mini",                 p:"$16.900", img:"ligera-mini.jpg",       cat:"combo", agotado:false},
-    {code:"OFERTA-02", n:"Combo Moderada",       d:"Moderada + Regular x2 + Protector",                   p:"$23.900", img:"combo-moderada.jpg",    cat:"combo", agotado:true},
-    {code:"OFERTA-03", n:"Set del día",          d:"Toallita Regular + Ligera x2 + Protector Mini",       p:"$23.900", img:"set-del-dia.jpg",       cat:"combo", agotado:false},
-    {code:"OFERTA-04", n:"Combo Vedetina",       d:"Moderada x2 + Regular",                               p:"$20.900", img:"combo-vedetina.jpg",    cat:"combo", agotado:false},
-    {code:"OFERTA-05", n:"Regular x 3",          d:"Toallita Regular Less x3 · Varios colores",           p:"$17.900", img:"regular-x3.jpg",        cat:"combo", agotado:false},
-    {code:"OFERTA-06", n:"Nocturna + Mini x2",   d:"Nocturna Larga + Protector Mini x2 Vedetina",         p:"$16.900", img:"nocturna-mini.jpg",     cat:"combo", agotado:false},
-    {code:"OFERTA-07", n:"Regular + Protector",  d:"Toallita Regular + Protector Incontinencia",          p:"$9.900",  img:"regular-protector.jpg", cat:"combo", agotado:false},
-    {code:"OFERTA-08", n:"Less en oferta",       d:"Less Moderada x2 + Less Regular · Algodón natural sin tintes", p:"$21.900", img:"less-oferta.jpg", cat:"combo", badge:"30% OFF", agotado:false},
-    {code:"OFERTA-09", n:"Intensa + Nocturna",   d:"Con fallas estéticas · 20% off extra",                p:"$11.900", img:"intensa-nocturna.jpg",  cat:"outlet", badge:"Outlet", agotado:false},
-    {code:"OFERTA-10", n:"Nocturna Max x2",      d:"Con fallas estéticas · 20% off extra",                p:"$12.720", img:"nocturna-max.jpg",      cat:"outlet", badge:"Outlet", agotado:false},
-    {code:"OFERTA-11", n:"Protector Mamario x4", d:"Absorbentes de lactancia",                            p:"$9.800",  img:"protector-mamario.jpg", cat:"maternidad", agotado:false},
+    {code:"OFERTA-01", n:"Ligera + Mini",        d:"Toallita Ligera x2 + Protector Mini",                 p:"$16.900", img:"ligera-mini.jpg",       cat:"combo"},
+    {code:"OFERTA-03", n:"Set del día",          d:"Toallita Regular + Ligera x2 + Protector Mini",       p:"$23.900", img:"set-del-dia.jpg",       cat:"combo"},
+    {code:"OFERTA-04", n:"Combo Vedetina",       d:"Moderada x2 + Regular",                               p:"$20.900", img:"combo-vedetina.jpg",    cat:"combo"},
+    {code:"OFERTA-07", n:"Regular + Protector",  d:"Toallita Regular + Protector Incontinencia",          p:"$9.900",  img:"regular-protector.jpg", cat:"combo"},
+    {code:"OFERTA-08", n:"Less en oferta",       d:"Less Moderada x2 + Less Regular · Algodón natural sin tintes", p:"$21.900", img:"less-oferta.jpg", cat:"combo", badge:"30% OFF"},
+    {code:"OFERTA-11", n:"Protector Mamario x4", d:"Absorbentes de lactancia",                            p:"$9.800",  img:"protector-mamario.jpg", cat:"maternidad"},
   ];
   // =======================================
 
@@ -379,42 +336,30 @@
 
   function render(filtro){
     grid.innerHTML = "";
-
     OFERTAS
       .filter(o => filtro === "todos" || o.cat === filtro)
       .forEach((o, i) => {
         const card = document.createElement("article");
-        card.className = o.agotado ? "card card-agotada" : "card";
-
-        const badge = o.agotado
-          ? '<span class="badge badge-agotado">Agotado</span>'
-          : (o.badge ? `<span class="badge">${o.badge}</span>` : "");
-
-        const action = o.agotado
-          ? '<div class="btn-wa"><span class="btn-agotado">Agotado</span></div>'
-          : `<div class="btn-wa">
-               <a href="${waLink(o)}"
-                  data-offer="${o.n}"
-                  data-offer-code="${o.code}"
-                  target="_blank"
-                  rel="noopener">Lo quiero</a>
-             </div>`;
-
+        card.className = "card";
         card.innerHTML = `
           <div class="photo">
-            ${badge}
+            ${o.badge ? `<span class="badge">${o.badge}</span>` : ""}
             <div class="placeholder">
               <span class="mark">${o.n}</span>
-              <small>Küyentün</small>
+              <small>Küyentún</small>
             </div>
-            <img src="${o.img}" alt="${o.n}" loading="lazy"
-                 onerror="this.style.display='none'">
           </div>
           <div class="info">
             <h2>${o.n}</h2>
             <div class="detalle">${o.d}</div>
             <div class="precio">${o.p}</div>
-            ${action}
+            <div class="btn-wa">
+              <a href="${waLink(o)}"
+                 data-offer="${o.n}"
+                 data-offer-code="${o.code}"
+                 target="_blank"
+                 rel="noopener">Lo quiero</a>
+            </div>
           </div>`;
 
         grid.appendChild(card);
