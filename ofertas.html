@@ -179,7 +179,31 @@
     .grid{gap:24px}
     .card h2{font-size:27px}
   }
-</style>
+.card-agotada {
+  opacity: 0.68;
+  filter: grayscale(45%);
+}
+
+.card-agotada:hover {
+  transform: none;
+}
+
+.badge-agotado {
+  background: #6e6e6e !important;
+  color: #ffffff !important;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.btn-agotado {
+  background: #878787 !important;
+  color: #ffffff !important;
+  cursor: not-allowed;
+  text-align: center;
+  font-weight: 700;
+  padding: 13px 18px;
+  border-radius: 8px;
+}</style>
 </head>
 <body>
 
@@ -258,23 +282,48 @@
     OFERTAS
       .filter(o => filtro === "todos" || o.cat === filtro)
       .forEach((o, i) => {
-        const card = document.createElement("article");
-        card.className = "card";
-        card.innerHTML = `
-          <div class="photo">
-            ${o.badge ? `<span class="badge">${o.badge}</span>` : ""}
-            <div class="placeholder">
-              <span class="mark">${o.n}</span>
-              <small>Küyentün</small>
-            </div>
-            
-          </div>
-          <div class="info">
-            <h2>${o.n}</h2>
-            <div class="detalle">${o.d}</div>
-            <div class="precio">${o.p}</div>
-            <div class="btn-wa"><a href="${waLink(o)}" data-offer="${o.n}" data-offer-code="${o.code}" target="_blank" rel="noopener">Lo quiero</a></div>
-          </div>`;
+       const card = document.createElement("article");
+card.className = o.agotado ? "card card-agotada" : "card";
+
+card.innerHTML = `
+  <div class="photo">
+
+    ${
+      o.agotado
+        ? `<span class="badge badge-agotado">AGOTADO</span>`
+        : o.badge
+          ? `<span class="badge">${o.badge}</span>`
+          : ""
+    }
+
+    <div class="placeholder">
+      <span class="mark">${o.n}</span>
+      <small>Küyentún</small>
+    </div>
+
+  </div>
+
+  <div class="info">
+    <h2>${o.n}</h2>
+    <div class="detalle">${o.d}</div>
+    <div class="precio">${o.p}</div>
+
+    ${
+      o.agotado
+        ? `<div class="btn-wa btn-agotado">AGOTADO</div>`
+        : `<div class="btn-wa">
+             <a href="${waLink(o)}"
+                data-offer="${o.n}"
+                data-offer-code="${o.code}"
+                target="_blank"
+                rel="noopener">
+                Lo quiero
+             </a>
+           </div>`
+    }
+
+  </div>
+`;
         grid.appendChild(card);
         setTimeout(() => card.classList.add("show"), 60 * i);
       });
